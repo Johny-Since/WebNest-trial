@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +35,8 @@ import {
   Clock,
   DollarSign,
   Database,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 const navigation = [
@@ -103,14 +106,14 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
               >
                 <NavLink
                   to={item.href}
-                  className={`flex items-center space-x-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 group ${
+                  className={`flex items-center space-x-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 group hover:scale-[1.02] ${
                     isActive 
-                      ? 'bg-gradient-to-r from-primary to-accent text-white shadow-soft' 
-                      : 'hover:bg-neutral-100 text-gray-700 hover:text-gray-900'
+                      ? 'bg-gradient-to-r from-primary to-accent text-white shadow-soft dark:shadow-glow' 
+                      : 'hover:bg-neutral-100 dark:hover:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                   onClick={() => mobile && setOpen(false)}
                 >
-                  <item.icon className={`h-5 w-5 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'} transition-colors`} />
+                  <item.icon className={`h-5 w-5 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300'} transition-colors`} />
                   <span>{item.name}</span>
                   {isActive && (
                     <motion.div
@@ -134,12 +137,12 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mx-3"
         >
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800">
             <div className="flex items-center space-x-2 mb-2">
-              <Crown className="h-5 w-5 text-yellow-600" />
-              <span className="font-semibold text-yellow-800">Upgrade to Premium</span>
+              <Crown className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+              <span className="font-semibold text-yellow-800 dark:text-yellow-200">Upgrade to Premium</span>
             </div>
-            <p className="text-sm text-yellow-700 mb-3">
+            <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-3">
               Unlock advanced features and priority support
             </p>
             <Link to="/client/premium">
@@ -155,9 +158,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:z-50 lg:w-80 lg:border-r lg:border-neutral-200 lg:bg-white/80 lg:backdrop-blur-md lg:shadow-soft">
+      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:z-50 lg:w-80 lg:border-r lg:border-neutral-200 dark:lg:border-neutral-700 lg:bg-white/80 dark:lg:bg-neutral-900/80 lg:backdrop-blur-md lg:shadow-soft">
         <Sidebar />
       </aside>
 
@@ -178,9 +181,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
               animate={{ x: 0 }}
               exit={{ x: -320 }}
               transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed inset-y-0 left-0 z-50 w-80 bg-white shadow-soft-lg lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 w-80 bg-white dark:bg-neutral-900 shadow-soft-lg lg:hidden"
             >
-              <div className="flex items-center justify-between p-6 border-b border-neutral-200">
+              <div className="flex items-center justify-between p-6 border-b border-neutral-200 dark:border-neutral-700">
                 <Link to="/client" className="flex items-center space-x-3">
                   <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-accent shadow-soft">
                     <Code2 className="h-6 w-6 text-white" />
@@ -208,7 +211,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-neutral-200 shadow-soft"
+          className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-700 shadow-soft"
         >
           <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
             <Button
@@ -221,6 +224,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
             </Button>
 
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               {user?.isPremium && (
                 <Badge variant="gradient" className="hidden sm:flex">
                   <Crown className="w-3 h-3 mr-1" />
@@ -239,11 +243,11 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 rounded-2xl shadow-soft-lg border-0 bg-white/95 backdrop-blur-md" align="end" forceMount>
+                <DropdownMenuContent className="w-64 rounded-2xl shadow-soft-lg border-0 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal p-4">
                     <div className="flex flex-col space-y-2">
-                      <p className="text-sm font-semibold leading-none text-gray-900">{user?.name}</p>
-                      <p className="text-xs leading-none text-gray-600">{user?.email}</p>
+                      <p className="text-sm font-semibold leading-none text-gray-900 dark:text-gray-100">{user?.name}</p>
+                      <p className="text-xs leading-none text-gray-600 dark:text-gray-400">{user?.email}</p>
                       {user?.isPremium && (
                         <Badge variant="gradient" size="sm" className="w-fit">
                           <Crown className="w-3 h-3 mr-1" />
@@ -252,7 +256,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                       )}
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-neutral-200" />
+                  <DropdownMenuSeparator className="bg-neutral-200 dark:bg-neutral-700" />
                   <DropdownMenuItem asChild className="rounded-xl m-1 p-3 cursor-pointer">
                     <Link to="/client/profile" className="flex items-center">
                       <User className="mr-3 h-4 w-4" />
@@ -273,9 +277,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                       </Link>
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuSeparator className="bg-neutral-200" />
+                  <DropdownMenuSeparator className="bg-neutral-200 dark:bg-neutral-700" />
                   <DropdownMenuItem
-                    className="rounded-xl m-1 p-3 cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                    className="rounded-xl m-1 p-3 cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
                     onClick={handleLogout}
                   >
                     <LogOut className="mr-3 h-4 w-4" />
